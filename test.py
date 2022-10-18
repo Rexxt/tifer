@@ -45,3 +45,5 @@ with term.fullscreen(), term.hidden_cursor():
                 editor.move_xy(0, -1)
             elif key.name == u'KEY_ENTER':
                 editor.write('\n')
+            else:
+                editor.write(str(key))
