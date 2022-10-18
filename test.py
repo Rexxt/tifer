@@ -35,11 +35,13 @@ with term.fullscreen(), term.hidden_cursor():
             key = term.inkey(timeout=0)
             if str(key) == 'q':
                 exit()
-            elif str(key) == 'h':
+            elif key.name == u'KEY_LEFT':
                 editor.move_xy(-1, 0)
-            elif str(key) == 'l':
+            elif key.name == u'KEY_RIGHT':
                 editor.move_xy(1, 0)
-            elif str(key) == 'j':
+            elif key.name == u'KEY_DOWN':
                 editor.move_xy(0, 1)
-            elif str(key) == 'k':
+            elif key.name == u'KEY_UP':
                 editor.move_xy(0, -1)
+            elif key.name == u'KEY_ENTER':
+                editor.write('\n')

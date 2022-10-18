@@ -2,7 +2,7 @@
 
 class FileEditor:
     def __init__(self,
-        text: str = '',       # text to edit
+        text: str = '',        # text to edit
         cursor: list = [0, 0], # initial position of the cursor (line, character)
         selection: list = None # text to select ((startline, startcharacter), (endline, endcharacter))
     ):
@@ -45,8 +45,8 @@ class FileEditor:
             cx = self.cursor[1]
             if char == '\n':
                 # take everything after the index
-                remainder = self.text[line][cx + 1:]
-                self.text[line] = self.text[line][:cx + 1]
+                remainder = self.text[line][cx:]
+                self.text[line] = self.text[line][:cx]
                 self.text.insert(line + 1, remainder)
                 self.cursor[1] = 0
                 self.cursor[0] += 1
