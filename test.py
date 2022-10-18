@@ -24,7 +24,7 @@ with term.fullscreen(), term.hidden_cursor():
                     render += term.on_white
                 render += editor.text[i][j] + term.normal
 
-            if editor.cursor[1] == j and editor.cursor[0] >= len(editor.text[i]):
+            if editor.cursor[0] == i and editor.cursor[1] >= len(editor.text[i]):
                 render += term.on_white(' ')
             render += '\n'
         render += term.move_xy(0, term.height - 1) + term.on_blue(file_path) + ' ' + term.bold_blue(f'L{editor.cursor[0] + 1}, C{editor.cursor[1] + 1}')
