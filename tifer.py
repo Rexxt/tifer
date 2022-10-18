@@ -60,6 +60,52 @@ class FileEditor:
         """Moves to the end of the buffer."""
 
         self.cursor = [len(self.text) - 1, len(self.text[-1])]
+    
+    def move_xy(self, x, y):
+        """Moves the cursor by x columns and y lines. Moves the cursor column to the end if needed.
+
+        Args:
+            x (int): number of columns to move
+            y (int): number of lines to move
+        """
+
+        if y > 0:
+            for i in range(y):
+                self.cursor[0] += 1
+                if self.cursor[1] > len(self.text[i + self.cursor[0]]):
+                    self.cursor[1] = len(self.text[i + self.cursor[0]])
+                if self.cursor[0] >= len(self.text):
+                    self.cursor[0] -= 1
+                    break
+        elif y < 0:
+            for i in range(-y):
+                self.cursor[0] -= 1
+                if self.cursor[1] > len(self.text[i + self.cursor[0]]):
+                    self.cursor[1] = len(self.text[i + self.cursor[0]])
+                if self.cursor[0] < 0:
+                    self.cursor[0] += 1
+                    break
+        
+        if x > 0:
+            for i in range(x):
+                self.cursor[1] += 1
+                if self.cursor[1] > len(self.text[i + self.cursor[0]]):
+                    self.cursor[1] = 0
+                    self.cursor[0] += 1
+                    if self.cursor[0] >= len(self.text):
+                        self.cursor[0] -= 1
+                        self.cursor[1] = len(self.text[i + self.cursor[0]])
+                        break
+        elif x < 0:
+            for i in range(-x):
+                self.cursor[1] -= 1
+                if self.cursor[1] < 0:
+                    self.cursor[0] -= 1
+                    self.cursor[1] = len(self.text[i + self.cursor[0]])
+                    if self.cursor[0] < 0:
+                        self.cursor[0] += 1
+                        self.cursor[1] = 0
+                        break
 
 if __name__ == '__main__':
     ed = FileEditor(open('readme.md', encoding='utf-8').read())
