@@ -2,9 +2,9 @@
 
 class FileEditor:
     def __init__(self,
-        text='',       # text to edit
-        cursor=(0, 0), # initial position of the cursor (line, character)
-        selection=None # text to select ((startline, startcharacter), (endline, endcharacter))
+        text: str = '',       # text to edit
+        cursor: list = [0, 0], # initial position of the cursor (line, character)
+        selection: list = None # text to select ((startline, startcharacter), (endline, endcharacter))
     ):
         self.text = []
         lines = text.split('\n')
@@ -32,9 +32,38 @@ class FileEditor:
     def __repr__(self):
         return self.__str__()
 
+    def write(self, text: str):
+        """Write some text to the buffer at the cursor position, and automatically move the cursor. Will automatically split at `\\n`.
+        Returns the current state of the buffer.
+
+        Args:
+            text (str): the text to write.
+        """
+
+        for char in text:
+            line = self.cursor[0]
+            cx = self.cursor[1]
+            if char == '\n':
+                # take everything after the index
+                remainder = self.text[line][cx + 1:]
+                self.text[line] = self.text[line][:cx + 1]
+                self.text.insert(line + 1, remainder)
+                self.cursor[1] = 0
+                self.cursor[0] += 1
+            else:
+                self.text[line].insert(cx, char)
+                self.cursor[1] += 1
+        
+        return self.text
+    
+    def move_end(self):
+        """Moves to the end of the buffer."""
+
+        self.cursor = [len(self.text) - 1, len(self.text[-1])]
+
 if __name__ == '__main__':
     ed = FileEditor(open('readme.md', encoding='utf-8').read())
-    print(ed.text)
-    print(ed.cursor)
-    print(ed.selection)
+    print(ed)
+    ed.move_end()
+    ed.write('\nTesting\n`tifer`\'s\nediting\ncapacities')
     print(ed)
