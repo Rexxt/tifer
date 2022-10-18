@@ -33,7 +33,7 @@ with term.fullscreen(), term.hidden_cursor():
 
         with term.cbreak():
             key = term.inkey(timeout=0)
-            if str(key) == 'q':
+            if key.name == 'KEY_ESCAPE':
                 exit()
             elif key.name == u'KEY_LEFT':
                 editor.move_xy(-1, 0)
@@ -45,5 +45,7 @@ with term.fullscreen(), term.hidden_cursor():
                 editor.move_xy(0, -1)
             elif key.name == u'KEY_ENTER':
                 editor.write('\n')
+            elif key.name == u'KEY_BACKSPACE':
+                editor.backspace()
             else:
                 editor.write(str(key))

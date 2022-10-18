@@ -56,12 +56,31 @@ class FileEditor:
         
         return self.text
     
+    def backspace(self, n: int =1):
+        """Backspace (ie delete the character before the cursor) n times (1 by default).
+
+        Args:
+            n (int, optional): Number of times to backspace. Defaults to 1.
+        """
+
+        for i in range(n):
+            line = self.cursor[0]
+            cx = self.cursor[1]
+            if len(self.text[line][:cx]) == 0 and self.cursor[0] > 0:
+                remainder = self.text[line][cx:]
+                self.text.pop(line)
+                self.move_xy(-1, 0)
+                self.text[self.cursor[0]] += remainder
+            else:
+                self.move_xy(-1, 0)
+                self.text[line].pop(cx - 1)
+    
     def move_end(self):
         """Moves to the end of the buffer."""
 
         self.cursor = [len(self.text) - 1, len(self.text[-1])]
     
-    def move_xy(self, x, y):
+    def move_xy(self, x: int, y: int):
         """Moves the cursor by x columns and y lines. Moves the cursor column to the end if needed.
 
         Args:
