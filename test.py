@@ -22,6 +22,11 @@ with term.fullscreen(), term.hidden_cursor():
             if i >= len(editor.text):
                 render += term.bold_grey(f'{len(editor.text)} line(s)')
                 break
+            chars = '◜◝◞◟'
+            if i%len(chars) == 0:
+                render += term.red(chars[i%len(chars)])
+            else:
+                render += term.blue(chars[i%len(chars)])
             for j in range(len(editor.text[i])):
                 if j > term.width:
                     break
@@ -34,11 +39,11 @@ with term.fullscreen(), term.hidden_cursor():
             render += '\n'
         render += term.move_xy(0, term.height - 1) + term.on_blue(file_path) + ' ' + term.bold_blue(f'L{editor.cursor[0] + 1}, C{editor.cursor[1] + 1}') + ' ' + term.green(str(utf8len(str(editor))) + ' B')
 
-        print(term.home+term.clear+render, end='')
+        print(term.home+term.clear+render, end='', flush=True)
 
         with term.cbreak():
             key = term.inkey()
-            if key.name == 'KEY_ESCAPE':
+            if key.name == u'KEY_ESCAPE':
                 exit()
             elif key.name == u'KEY_LEFT':
                 editor.move_xy(-1, 0)

@@ -71,7 +71,7 @@ class FileEditor:
                 self.text.pop(line)
                 self.move_xy(-1, 0)
                 self.text[self.cursor[0]] += remainder
-            else:
+            elif len(self.text[line]) > 0:
                 self.move_xy(-1, 0)
                 self.text[line].pop(cx - 1)
     
